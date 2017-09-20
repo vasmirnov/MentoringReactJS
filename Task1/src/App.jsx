@@ -1,12 +1,11 @@
 import React from 'react';
 import ReactDom from 'react-dom';
-import { Dropdown } from './components/Dropdown';
-import { Item } from './components/Item';
+import { SearchPage } from './components/SearchPage';
+
 
 ReactDom.render(
     <div>
-        <Item />
-        <Dropdown />
+        <SearchPage />
     </div>,
     document.getElementById('app')
 )

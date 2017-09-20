@@ -1,0 +1,63 @@
+.searchHeader {	
+    background-image: url('../img/header.jpg');
+    color: white;
+    padding-left: 75px;
+    padding-right: 75px;
+    padding-bottom: 40px;
+    padding-top: 20px;
+    font-weight: bold;
+}
+.name {
+    color: #F55563;
+}
+.h1 {
+    text-transform: uppercase;
+	font-size: 14px;
+    margin-top: 30px; 
+    margin-bottom: 10px; 
+}
+.searchText{
+    width: 577px;
+    background: black;
+    color: white;
+    padding: 10px;
+    border:none;
+    border-bottom:ridge #F55563 2px;
+}
+.h2{
+    width: 597px;
+    padding-top: 10px; 
+    height: 30px;
+}
+.searchBy {
+    text-transform: uppercase;
+    font-size: 10px;
+    padding-top: 10px;   
+    float: left;
+}
+.h2 text {
+    margin-top: 10px; 
+    padding-top: 3px;
+    padding-bottom: 3px;
+} 
+.h2 .option {
+    background: gray;
+    padding-left: 15px;
+    padding-right: 15px;
+    margin-left: 10px;     
+}
+.h2 .selected {
+     background: #F55563;    
+}
+
+.searchButton {
+	font-size: 14px;
+    background: #F55563;
+    float: right;
+    color: white;
+    padding: auto;
+    width: 145px;
+    height: 30px;
+    border: none;
+    font-weight: bold;
+}

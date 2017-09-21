@@ -1,0 +1,100 @@
+.main {	
+    background-image: url('../img/header.jpg');
+    color: white;
+    padding-left: 35px;
+    padding-right: 35px;
+    padding-bottom: 40px;
+    padding-top: 20px;
+
+}
+.hTitle {
+    color: #F55563;
+    font-weight: bold;
+    margin-bottom: 30px; 
+    padding-left: 40px;
+    display: inline-block;
+}
+.searchButton {
+	font-size: 14px;
+    color: #F55563;
+    font-weight: bold;
+    background: white;
+    float: right;
+    width: 90px;
+    height: 30px;
+    border: none;
+    border-radius: 5%;    
+}
+.img {
+    width: 250px;
+    height: 350px;
+    display: inline-block;
+}
+.info {
+    width: 390px;
+    display: inline-block;
+    vertical-align: top;
+    padding-left: 30px;
+    color: lightgray;
+}
+.title {
+    color: #F55563;
+    text-transform: capitalize;
+    font-weight: bold;
+    font-size: x-large;
+    display: inline-block;
+    padding-top: 15px;
+}
+.rating {
+    font-weight: bold;
+    display: inline-block;
+    padding: 8px;
+    margin-left: 15px;
+    margin-top: 10px;
+    border-radius: 50%;
+    border: 2px solid;
+    vertical-align: top;
+}
+.ratingGreen{
+    border-color: lightgreen;
+    color: lightgreen;  
+}
+.ratingYellow{
+    border-color: yellow;
+    color: yellow;  
+}
+.ratingRed{
+    border-color: #F55563;
+    color: #F55563;  
+}
+.genre {
+    font-size: medium;
+}
+
+.year {
+    font-size: medium;
+    font-weight: bold;
+    color: white;
+    display: inline-block;
+    padding-top: 15px;    
+}
+.description {
+    font-size: medium;
+    padding-top: 30px;    
+}
+.timing {
+    font-size: medium;
+    font-weight: bold;
+    color: white;
+    display: inline-block;
+    margin-left: 30px;
+    
+}
+.director {
+    font-size: small;
+    padding-top: 30px;    
+}
+.cast {
+    padding-top: 15px;    
+    font-size: small;
+}

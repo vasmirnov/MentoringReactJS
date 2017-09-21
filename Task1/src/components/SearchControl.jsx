@@ -1,21 +1,18 @@
 import React from 'react';
 import * as s from './searchcontrol.css';
+import { OptionText } from './OptionText';
 
-export class SearchControl extends React.Component {
+export class SearchControl extends React.PureComponent {
 	render() {
 		return (
-			<div className={s.searchHeader}>
-				<div className={s.name}>netflixroulette</div>
+			<div className={s.main}>
+				<div className={s.hTitle}>netflixroulette</div>
 				<div className={s.h1}>Find your movie</div>
 				<input className={s.searchText}></input>
 				<div className={s.h2}>
 					<div className={s.searchBy}>Search by 
-					<text onClick={() => this.props.searchByHandler('title')}  className={s.option + ' '+ (this.props.searchBy=='title' && s.selected)}>
-						Title
-					</text> 
-					<text onClick={() => this.props.searchByHandler('director')} className={s.option + ' '+ (this.props.searchBy=='director' && s.selected)}>
-						Director
-					</text>
+						<OptionText selected={this.props.searchBy} value='title' handler={this.props.searchByHandler} baseClass={s.option} selectedClass={s.selected}/>
+						<OptionText selected={this.props.searchBy} value='director' handler={this.props.searchByHandler}  baseClass={s.option} selectedClass={s.selected}/>
 					</div>
 					<button className={s.searchButton}>Search</button>
 				</div>

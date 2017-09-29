@@ -1,11 +1,8 @@
-import React from 'react';
-import ReactDom from 'react-dom';
-import { SearchPage } from './components/SearchPage';
+import * as React from 'react';
+import { withRouter } from 'react-router'
 
-
-ReactDom.render(
+export const App = withRouter(({ history, children }) => (
     <div>
-        <SearchPage />
-    </div>,
-    document.getElementById('app')
-)
+        {children}
+    </div>
+)) 

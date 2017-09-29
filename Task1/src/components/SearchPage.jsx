@@ -6,16 +6,17 @@ import { SearchResults } from './SearchResults';
 import { FullView } from './FullView';
 import killBill1 from '../img/kill-bill-1.jpg';
 import killBill2 from '../img/kill-bill-2.jpg';
+import { HashRouter as Router, Route, Switch } from 'react-router-dom';
 
 export class SearchPage extends React.PureComponent {
 
     constructor(...args) {
         super(...args);
-
         this.state = {
             count: 7,
             searchBy: 'title',
             sortBy: 'release date',
+            searchText: '',
             films: [
                 {
                     id: 1,
@@ -72,34 +73,63 @@ export class SearchPage extends React.PureComponent {
         this.selectFilmHandler = this.selectFilmHandler.bind(this);
         this.unselectFilmHandler = this.unselectFilmHandler.bind(this);
         this.sortByHandler = this.sortByHandler.bind(this);
+        this.searchTextHandler = this.searchTextHandler.bind(this);
     }
 
+    setStateAndHistory(newState){
+        this.setState(newState);
+        var x = Object.assign(this.state, newState)
+        this.props.history.push('/search/' + x.searchBy + '/' + x.searchText + '/'+ x.sortBy);     
+    }
+
+    searchTextHandler(s) {
+        this.setStateAndHistory({
+            searchText: s
+        })           
+    }
     searchByHandler(s) {
-        this.setState({
+        this.setStateAndHistory({
             searchBy: s,
             selectedDirector: (s == 'director') && "Quentien Tarantino"
         })
     }
     sortByHandler(s) {
-        this.setState({
+        this.setStateAndHistory({
             sortBy: s
         })
     }
+
     selectFilmHandler(film) {
         this.setState({
             selectedFilm: film
         })
+        this.props.history.push('/film/' + film.id);
     }
     unselectFilmHandler() {
         this.setState({
             selectedFilm: undefined
         })
+        this.props.history.push('/search/' + this.state.searchBy + '/' + this.state.searchText + '/'+ this.state.sortBy);
     }
-
+    handleRoute(match){
+        this.setState({
+            searchBy: match.params.searchBy || this.state.searchBy,
+            selectedDirector: (s == 'director') && "Quentien Tarantino",
+            searchText: match.params.searchText || this.state.searchText,
+            sortBy: match.params.sortBy || this.state.sortBy,
+            selectedFilm: match.path.startsWith('/film') && this.state.films.find((e)=>(e.id == match.params.id))
+        })
+    }
+    componentWillMount(){
+        this.handleRoute(this.props.match)
+    }
     render() {
         return (
 			<div className={s.main}>
-				{!this.state.selectedFilm && <SearchControl searchByHandler={this.searchByHandler} searchBy={this.state.searchBy}/>}
+                {!this.state.selectedFilm && <SearchControl searchTextHandler={this.searchTextHandler} 
+                                                            searchByHandler={this.searchByHandler} 
+                                                            searchBy={this.state.searchBy} 
+                                                            searchText={this.props.match.params.searchText}/>}
                 {this.state.selectedFilm && <FullView film={this.state.selectedFilm} unselectFilmHandler={this.unselectFilmHandler}/>}
 				<SearchHeader count={this.state.count} sortBy={this.state.sortBy} director={this.state.selectedDirector} sortByHandler={this.sortByHandler}/>
 				<SearchResults films={this.state.films} selectFilmHandler={this.selectFilmHandler}/>

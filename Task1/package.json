@@ -29,11 +29,7 @@
   "dependencies": {
     "react": "15.6.1",
     "react-dom": "15.6.1",
-	  "redux":"3.7.2",
-	  "react-redux": "4.4.8",
-    "react-router": "2.6.1",
-    "react-router-redux": "4.0.8",
-    "redux-form": "6.1.1"
+    "react-router-dom": "4.2.2"
   },
   "jest": {
     "verbose": true

@@ -5,7 +5,7 @@ module.exports = {
 
     context: path.join(__dirname, 'src'),
 
-    entry: './App',
+    entry: './index.jsx',
 	
     output: {
         path: path.join(__dirname, "built"),

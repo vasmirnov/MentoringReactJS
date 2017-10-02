@@ -1,7 +1,3 @@
-/**
- * @author aelyseev
- * @date 27/03/16
- */
 var app = require('express')();
 var webpack = require('webpack');
 

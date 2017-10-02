@@ -1,23 +1,28 @@
 const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
+const webpack = require('webpack');
 
 module.exports = {
+	devtool: 'source-map',
 
-    context: path.join(__dirname, 'src'),
+	context: path.join(__dirname, 'src'),
 
-    entry: './index.jsx',
-	
-    output: {
-        path: path.join(__dirname, "built"),
-        filename: '[name].js'
-    },
+	entry: [
+		'webpack/hot/only-dev-server',
+		'./index.jsx'
+	],
 
-    resolve: {
-        extensions: ['.js', '.jsx']
-    },
+	output: {
+		path: path.join(__dirname, "built"),
+		filename: '[name].js'
+	},
 
-    module: {
-        rules: [
+	resolve: {
+		extensions: ['.js', '.jsx']
+	},
+
+	module: {
+		rules: [
 			{
 				test: /\.jsx?$/,
 				exclude: /node_modules/,
@@ -55,15 +60,16 @@ module.exports = {
 				options: {
 					name: '[path][name].[ext]?[hash]'
 				}
-        	}
+			}
 		]
-    },
+	},
 
-    plugins: [
-        new HtmlWebpackPlugin({
-            title: 'Netflix Roulette Search',
-            hash: true,
-            template: './index.html'
-        })
-    ]
+	plugins: [
+		new webpack.HotModuleReplacementPlugin(),
+		new HtmlWebpackPlugin({
+			title: 'Netflix Roulette Search',
+			hash: true,
+			template: './index.html'
+		})
+	]
 };

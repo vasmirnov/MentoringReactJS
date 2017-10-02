@@ -10,10 +10,9 @@ ReactDom.render((
         <App>
             <Switch>
                 <Route exact path="/" component={SearchPage} />
-                <Route path="/film/:id" component={SearchPage} />
-                <Route path="/search/:searchBy/:searchText/:sortBy" component={SearchPage}/>               
+                <Route path="/film/:sortBy/:id" component={SearchPage} />
+                <Route path="/search/:searchBy/:sortBy/:searchText?" component={SearchPage} />
                 <Route path="*" component={NotFound} />
-
             </Switch>
         </App>
     </Router>

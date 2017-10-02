@@ -4,9 +4,13 @@ import { SearchControl } from './SearchControl';
 import { SearchHeader } from './SearchHeader';
 import { SearchResults } from './SearchResults';
 import { FullView } from './FullView';
-import killBill1 from '../img/kill-bill-1.jpg';
-import killBill2 from '../img/kill-bill-2.jpg';
+
 import { HashRouter as Router, Route, Switch } from 'react-router-dom';
+import { filmsData } from './filmsData';
+
+const SEARCH_BY = 'title'
+const SORT_BY = 'release date'
+
 
 export class SearchPage extends React.PureComponent {
 
@@ -14,59 +18,10 @@ export class SearchPage extends React.PureComponent {
         super(...args);
         this.state = {
             count: 7,
-            searchBy: 'title',
-            sortBy: 'release date',
+            searchBy: SEARCH_BY,
+            sortBy: SORT_BY,
             searchText: '',
-            films: [
-                {
-                    id: 1,
-                    img: killBill1,
-                    title: "Убить билла 1",
-                    year: "2001",
-                    rating: 4.1,
-                    genre: "Action & Adventure",
-                    timing: 154,
-                    description: "Вычеркнув двоих из смертельного списка, Невеста лишь наполовину приблизилась к цели. Теперь на очереди Бад и Элли Драйвер, уже приговоренные воскресшей жертвой! Еще два опасных шага перед последней схваткой, в которой она должна Убить Билла!..",
-                    director: "Quentin Tarantino",
-                    cast: "Ума Турман, Дэвид Кэрредин, Майкл Мэдсен, Дэрил Ханна, Цзя-Хуэй Лю, Перла Аней-Жардине, Ларри Бишоп, Майкл Паркс, Бо Свенсон, Дженни Эппер..."
-                },
-                {
-                    id: 2,
-                    img: killBill2,
-                    title: "Убить билла 2",
-                    year: "2005",
-                    rating: 3.1,
-                    genre: "Action & Adventure",
-                    timing: 154,
-                    description: "Вычеркнув двоих из смертельного списка, Невеста лишь наполовину приблизилась к цели. Теперь на очереди Бад и Элли Драйвер, уже приговоренные воскресшей жертвой! Еще два опасных шага перед последней схваткой, в которой она должна Убить Билла!..",
-                    director: "Quentin Tarantino",
-                    cast: "Ума Турман, Дэвид Кэрредин, Майкл Мэдсен, Дэрил Ханна, Цзя-Хуэй Лю, Перла Аней-Жардине, Ларри Бишоп, Майкл Паркс, Бо Свенсон, Дженни Эппер..."
-                },
-                {
-                    id: 3,
-                    img: killBill2,
-                    title: "Убить билла 3",
-                    year: "2008",
-                    rating: 2.1,
-                    genre: "Action & Adventure",
-                    timing: 154,
-                    description: "Вычеркнув двоих из смертельного списка, Невеста лишь наполовину приблизилась к цели. Теперь на очереди Бад и Элли Драйвер, уже приговоренные воскресшей жертвой! Еще два опасных шага перед последней схваткой, в которой она должна Убить Билла!..",
-                    director: "Quentin Tarantino",
-                    cast: "Ума Турман, Дэвид Кэрредин, Майкл Мэдсен, Дэрил Ханна, Цзя-Хуэй Лю, Перла Аней-Жардине, Ларри Бишоп, Майкл Паркс, Бо Свенсон, Дженни Эппер..."
-                },
-                {
-                    id: 4,
-                    img: killBill2,
-                    title: "Убить билла 4",
-                    year: "2012",
-                    rating: 1.1,
-                    genre: "Action & Adventure",
-                    timing: 154,
-                    description: "Вычеркнув двоих из смертельного списка, Невеста лишь наполовину приблизилась к цели. Теперь на очереди Бад и Элли Драйвер, уже приговоренные воскресшей жертвой! Еще два опасных шага перед последней схваткой, в которой она должна Убить Билла!..",
-                    director: "Quentin Tarantino",
-                    cast: "Ума Турман, Дэвид Кэрредин, Майкл Мэдсен, Дэрил Ханна, Цзя-Хуэй Лю, Перла Аней-Жардине, Ларри Бишоп, Майкл Паркс, Бо Свенсон, Дженни Эппер..."
-                },
-            ]
+            films: filmsData || []
         };
 
         this.searchByHandler = this.searchByHandler.bind(this);
@@ -74,25 +29,35 @@ export class SearchPage extends React.PureComponent {
         this.unselectFilmHandler = this.unselectFilmHandler.bind(this);
         this.sortByHandler = this.sortByHandler.bind(this);
         this.searchTextHandler = this.searchTextHandler.bind(this);
+        this.renderSearchControl = this.renderSearchControl.bind(this);
+        this.renderFullView = this.renderFullView.bind(this);
     }
 
-    setStateAndHistory(newState){
-        this.setState(newState);
+    setStateAndHistory(newState) {
         var x = Object.assign(this.state, newState)
-        this.props.history.push('/search/' + x.searchBy + '/' + x.searchText + '/'+ x.sortBy);     
+        var newPath;
+        if (x.selectedFilm) {
+            newPath = '/film/' + x.sortBy + '/' + x.selectedFilm.id;
+        } else {
+            newPath = '/search/' + x.searchBy + '/' + x.sortBy + '/' + x.searchText;
+        }
+        if (this.props.history.location.pathname != newPath) {
+            this.props.history.push(newPath);
+        }
     }
 
     searchTextHandler(s) {
         this.setStateAndHistory({
             searchText: s
-        })           
-    }
-    searchByHandler(s) {
-        this.setStateAndHistory({
-            searchBy: s,
-            selectedDirector: (s == 'director') && "Quentien Tarantino"
         })
     }
+
+    searchByHandler(s) {
+        this.setStateAndHistory({
+            searchBy: s
+        })
+    }
+
     sortByHandler(s) {
         this.setStateAndHistory({
             sortBy: s
@@ -100,40 +65,85 @@ export class SearchPage extends React.PureComponent {
     }
 
     selectFilmHandler(film) {
-        this.setState({
+        this.setStateAndHistory({
             selectedFilm: film
         })
-        this.props.history.push('/film/' + film.id);
     }
+
     unselectFilmHandler() {
-        this.setState({
-            selectedFilm: undefined
-        })
-        this.props.history.push('/search/' + this.state.searchBy + '/' + this.state.searchText + '/'+ this.state.sortBy);
+        this.setStateAndHistory({
+            selectedFilm: null
+        });
     }
-    handleRoute(match){
-        this.setState({
-            searchBy: match.params.searchBy || this.state.searchBy,
-            selectedDirector: (s == 'director') && "Quentien Tarantino",
-            searchText: match.params.searchText || this.state.searchText,
-            sortBy: match.params.sortBy || this.state.sortBy,
-            selectedFilm: match.path.startsWith('/film') && this.state.films.find((e)=>(e.id == match.params.id))
-        })
+
+    handleRoute(match) {
+        var newState = {
+            searchBy: match.params.searchBy || SEARCH_BY,
+            searchText: match.params.searchText || '',
+            sortBy: match.params.sortBy || SORT_BY,
+            selectedFilm: match.path.startsWith('/film') && this.state.films.find((e) => (e.id == match.params.id))
+
+        };
+        newState.films = this.searchFilms(newState);
+        this.setState(newState);
     }
-    componentWillMount(){
+
+    searchFilms(newState) {
+        var films = filmsData;
+        if (newState.selectedFilm) {
+            films = films.filter((e) => (e.director === newState.selectedFilm.director));
+        } else if (newState.searchText) {
+            if (newState.searchBy == 'director') {
+                films = films.filter((e) => (e.director.indexOf(newState.searchText) >= 0));
+            } else {
+                films = films.filter((e) => (e.title.indexOf(newState.searchText) >= 0));
+            }
+        }
+        var comparator;
+        if (newState.sortBy == 'rating') {
+            comparator = (a, b) => (+(a.rating > b.rating) || +(a.rating === b.rating) - 1);
+        } else {
+            comparator = (a, b) => (+(a.year > b.year) || +(a.year === b.year) - 1);
+        }
+        return films.sort(comparator);
+    }
+
+    componentWillMount() {
         this.handleRoute(this.props.match)
     }
+
+    componentWillReceiveProps(newprops) {
+        if (this.props != newprops) {
+            this.handleRoute(newprops.match)
+        }
+    }
+
+    renderSearchControl(props) {
+        return (
+            <SearchControl {...props}
+                searchHandler={this.searchTextHandler}
+                searchByHandler={this.searchByHandler} />
+
+        )
+    }
+    renderFullView(props) {
+        return (
+            <FullView {...props}
+                film={this.state.selectedFilm}
+                unselectFilmHandler={this.unselectFilmHandler} />
+        )
+    }
+
     render() {
         return (
-			<div className={s.main}>
-                {!this.state.selectedFilm && <SearchControl searchTextHandler={this.searchTextHandler} 
-                                                            searchByHandler={this.searchByHandler} 
-                                                            searchBy={this.state.searchBy} 
-                                                            searchText={this.props.match.params.searchText}/>}
-                {this.state.selectedFilm && <FullView film={this.state.selectedFilm} unselectFilmHandler={this.unselectFilmHandler}/>}
-				<SearchHeader count={this.state.count} sortBy={this.state.sortBy} director={this.state.selectedDirector} sortByHandler={this.sortByHandler}/>
-				<SearchResults films={this.state.films} selectFilmHandler={this.selectFilmHandler}/>
-			</div >
+            <div className={s.main}>
+                <Switch>
+                    <Route path="/search/:searchBy/:sortBy/:searchText?" component={this.renderSearchControl} />
+                    <Route path="/film/:id" component={this.renderFullView} />
+                </Switch>
+                <SearchHeader count={this.state.films.length} sortBy={this.state.sortBy} film={this.state.selectedFilm} sortByHandler={this.sortByHandler} />
+                <SearchResults films={this.state.films} selectFilmHandler={this.selectFilmHandler} />
+            </div >
         )
     }
 }

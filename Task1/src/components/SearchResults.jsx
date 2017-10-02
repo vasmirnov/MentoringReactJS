@@ -1,7 +1,7 @@
 import React from 'react';
 import { Preview } from './Preview';
 
-export class SearchResults extends React.PureComponent {
+export class SearchResults extends React.Component {
 
     render() {
         return (

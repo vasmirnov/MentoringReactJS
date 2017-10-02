@@ -138,7 +138,8 @@ export class SearchPage extends React.PureComponent {
         return (
             <div className={s.main}>
                 <Switch>
-                    <Route path="/search/:searchBy/:sortBy/:searchText?" component={this.renderSearchControl} />
+                    <Route path="/" component={this.renderSearchControl} />
+                    <Route path="/search/:searchBy?/:sortBy?/:searchText?" component={this.renderSearchControl} />
                     <Route path="/film/:id" component={this.renderFullView} />
                 </Switch>
                 <SearchHeader count={this.state.films.length} sortBy={this.state.sortBy} film={this.state.selectedFilm} sortByHandler={this.sortByHandler} />

@@ -11,6 +11,7 @@
 }
 .title {
     float: left;
+    width: 145px;
     text-transform: uppercase;
     font-weight: bold;
     font-size: 14px;
@@ -18,6 +19,7 @@
 }
 .genre {
     float: left;
+    clear: left;
     font-size: 10px;
     margin-left: 5px;
 }

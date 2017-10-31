@@ -24,19 +24,19 @@ export class SearchControl extends React.PureComponent {
 		this.props.searchHandler(this.state.searchText);
 	}
 
-	handleRoute(match) {
+	handleRoute(props) {
 		this.setState({
-			searchText: match.params.searchText || '',
-			searchBy: match.params.searchBy || SEARCH_BY
+			searchText: props.searchText || ''
 		});
 	}
+
 	componentWillReceiveProps(newprops) {
 		if (this.props != newprops) {
-			this.handleRoute(newprops.match);
+			this.handleRoute(newprops);
 		}
 	}
 	componentWillMount() {
-		this.handleRoute(this.props.match);
+		this.handleRoute(this.props);
 	}
 
 	render() {
@@ -47,8 +47,8 @@ export class SearchControl extends React.PureComponent {
 				<input className={s.searchText} value={this.state.searchText} onChange={this.searchTextHandler} />
 				<div className={s.h2}>
 					<div className={s.searchBy}>Search by
-						<OptionText selected={this.state.searchBy} value='title' handler={this.props.searchByHandler} baseClass={s.option} selectedClass={s.selected} />
-						<OptionText selected={this.state.searchBy} value='director' handler={this.props.searchByHandler} baseClass={s.option} selectedClass={s.selected} />
+						<OptionText selected={this.props.searchBy} value='title' handler={this.props.searchByHandler} baseClass={s.option} selectedClass={s.selected} default={true} />
+						<OptionText selected={this.props.searchBy} value='director' handler={this.props.searchByHandler} baseClass={s.option} selectedClass={s.selected} />
 					</div>
 					<button className={s.searchButton} onClick={this.searchHandler}>Search</button>
 				</div>

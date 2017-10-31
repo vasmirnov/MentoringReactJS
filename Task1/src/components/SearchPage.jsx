@@ -1,43 +1,34 @@
 import React from 'react';
+import { connect } from 'react-redux';
+import { setState } from '../action_creators';
+
 import * as s from './searchpage.css';
-import { SearchControl } from './SearchControl';
+import { SearchControl, SEARCH_BY } from './SearchControl';
 import { SearchHeader } from './SearchHeader';
 import { SearchResults } from './SearchResults';
 import { FullView } from './FullView';
 
 import { HashRouter as Router, Route, Switch } from 'react-router-dom';
-import { filmsData } from './filmsData';
 
-const SEARCH_BY = 'title'
-const SORT_BY = 'release date'
+import * as actionCreators from '../action_creators';
 
+export const SORT_BY = 'release date'
 
 export class SearchPage extends React.PureComponent {
 
     constructor(...args) {
         super(...args);
-        this.state = {
-            count: 7,
-            searchBy: SEARCH_BY,
-            sortBy: SORT_BY,
-            searchText: '',
-            films: filmsData || []
-        };
-
-        this.searchByHandler = this.searchByHandler.bind(this);
-        this.selectFilmHandler = this.selectFilmHandler.bind(this);
-        this.unselectFilmHandler = this.unselectFilmHandler.bind(this);
+        this.searchByHandler = this.searchByHandler.bind(this);    
         this.sortByHandler = this.sortByHandler.bind(this);
         this.searchTextHandler = this.searchTextHandler.bind(this);
         this.renderSearchControl = this.renderSearchControl.bind(this);
         this.renderFullView = this.renderFullView.bind(this);
     }
 
-    setStateAndHistory(newState) {
-        var x = Object.assign(this.state, newState)
+    setStateAndHistory(x) {
         var newPath;
         if (x.selectedFilm) {
-            newPath = '/film/' + x.sortBy + '/' + x.selectedFilm.id;
+            newPath = '/film/' + x.sortBy + '/' + x.selectedFilm.get("id");
         } else {
             newPath = '/search/' + x.searchBy + '/' + x.sortBy + '/' + x.searchText;
         }
@@ -64,73 +55,32 @@ export class SearchPage extends React.PureComponent {
         })
     }
 
-    selectFilmHandler(film) {
-        this.setStateAndHistory({
-            selectedFilm: film
-        })
-    }
-
-    unselectFilmHandler() {
-        this.setStateAndHistory({
-            selectedFilm: null
-        });
-    }
-
-    handleRoute(match) {
-        var newState = {
-            searchBy: match.params.searchBy || SEARCH_BY,
-            searchText: match.params.searchText || '',
-            sortBy: match.params.sortBy || SORT_BY,
-            selectedFilm: match.path.startsWith('/film') && this.state.films.find((e) => (e.id == match.params.id))
-
-        };
-        newState.films = this.searchFilms(newState);
-        this.setState(newState);
-    }
-
-    searchFilms(newState) {
-        var films = filmsData;
-        if (newState.selectedFilm) {
-            films = films.filter((e) => (e.director === newState.selectedFilm.director));
-        } else if (newState.searchText) {
-            if (newState.searchBy == 'director') {
-                films = films.filter((e) => (e.director.indexOf(newState.searchText) >= 0));
-            } else {
-                films = films.filter((e) => (e.title.indexOf(newState.searchText) >= 0));
-            }
-        }
-        var comparator;
-        if (newState.sortBy == 'rating') {
-            comparator = (a, b) => (+(a.rating > b.rating) || +(a.rating === b.rating) - 1);
-        } else {
-            comparator = (a, b) => (+(a.year > b.year) || +(a.year === b.year) - 1);
-        }
-        return films.sort(comparator);
-    }
-
     componentWillMount() {
-        this.handleRoute(this.props.match)
+        this.setStateAndHistory(this.props)
     }
 
     componentWillReceiveProps(newprops) {
         if (this.props != newprops) {
-            this.handleRoute(newprops.match)
+            this.setStateAndHistory(newprops)
         }
     }
 
     renderSearchControl(props) {
+        console.log("searchText: " + this.props);
         return (
-            <SearchControl {...props}
-                searchHandler={this.searchTextHandler}
-                searchByHandler={this.searchByHandler} />
+            <SearchControl
+                searchText = {this.props.searchText}
+			    searchBy = {this.props.searchBy}
+                searchHandler = {this.props.startSearchRequest}
+                searchByHandler = {this.searchByHandler} />
 
         )
     }
     renderFullView(props) {
         return (
-            <FullView {...props}
-                film={this.state.selectedFilm}
-                unselectFilmHandler={this.unselectFilmHandler} />
+            <FullView 
+                film={this.props.selectedFilm}
+                unselectFilmHandler={this.props.clearFilmDetails} />
         )
     }
 
@@ -138,14 +88,26 @@ export class SearchPage extends React.PureComponent {
         return (
             <div className={s.main}>
                 <Switch>
-                    <Route path="/" component={this.renderSearchControl} />
                     <Route path="/search/:searchBy?/:sortBy?/:searchText?" component={this.renderSearchControl} />
                     <Route path="/film/:id" component={this.renderFullView} />
+                    <Route path="/" component={this.renderSearchControl} />
                 </Switch>
-                <SearchHeader count={this.state.films.length} sortBy={this.state.sortBy} film={this.state.selectedFilm} sortByHandler={this.sortByHandler} />
-                <SearchResults films={this.state.films} selectFilmHandler={this.selectFilmHandler} />
+                <SearchHeader count={this.props.films.size} sortBy={this.props.sortBy} film={this.props.selectedFilm} sortByHandler={this.props.startSortRequest} />
+                <SearchResults films={this.props.films} selectFilmHandler={this.props.startFetchFilmRequest}/>
             </div >
         )
     }
 }
 
+
+function mapStateToProps(state) {
+    return {
+        searchBy: state.get('searchBy')|| SEARCH_BY,
+        sortBy: state.get('sortBy')|| SORT_BY,
+        searchText: state.get('searchText') || '',
+        films: state.get('films') || [],
+        selectedFilm: state.get('selectedFilm')
+    };
+  }
+
+export const SearchPageContainer =  connect(mapStateToProps, actionCreators)(SearchPage); 

@@ -13,12 +13,22 @@ module.exports = {
 	],
 
 	output: {
-		path: path.join(__dirname, "built"),
+		path: path.resolve(__dirname, "built"),
+		publicPath: '/built/',
 		filename: '[name].js'
 	},
 
 	resolve: {
 		extensions: ['.js', '.jsx']
+	},
+
+	devServer: {
+		contentBase: './built',
+		historyApiFallback: {
+			index:'index.html'
+		},
+		
+		
 	},
 
 	module: {

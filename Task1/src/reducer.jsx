@@ -6,6 +6,7 @@ function setState(state, newState) {
 
 export default function(state = Map(), action) {
   switch (action.type) {
+    case 'INIT':
     case 'RECEIVE_FILM_DETAILS':
     case 'START_SEARCH_REQUEST':
     case 'START_SORT_REQUEST':

@@ -48,3 +48,18 @@ export function clearFilmDetails() {
   }
 }
 
+export function init(params) {
+  return {
+    type: 'INIT',
+    state:{
+        inited: true,
+        searchBy: params.searchBy,
+        sortBy: params.sortBy,
+        searchText: params.searchText || '',
+        selectedFilmId: params.id
+    }
+  }
+}
+
+
+

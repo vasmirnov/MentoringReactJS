@@ -15,8 +15,6 @@ import { api_key } from './api_key';
 console.log(remoteActionMiddleware)
 const store = createStore(reducer, applyMiddleware(remoteActionMiddleware));
 
-store.dispatch(startSearchRequest("a"));
-
 ReactDom.render((
     <Provider store={store}>
         <Router>

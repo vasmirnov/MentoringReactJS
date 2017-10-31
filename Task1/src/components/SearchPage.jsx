@@ -19,13 +19,11 @@ export class SearchPage extends React.PureComponent {
     constructor(...args) {
         super(...args);
         this.searchByHandler = this.searchByHandler.bind(this);    
-        this.sortByHandler = this.sortByHandler.bind(this);
-        this.searchTextHandler = this.searchTextHandler.bind(this);
         this.renderSearchControl = this.renderSearchControl.bind(this);
         this.renderFullView = this.renderFullView.bind(this);
     }
 
-    setStateAndHistory(x) {
+    setHistory(x) {
         var newPath;
         if (x.selectedFilm) {
             newPath = '/film/' + x.sortBy + '/' + x.selectedFilm.get("id");
@@ -37,36 +35,25 @@ export class SearchPage extends React.PureComponent {
         }
     }
 
-    searchTextHandler(s) {
-        this.setStateAndHistory({
-            searchText: s
-        })
-    }
-
     searchByHandler(s) {
-        this.setStateAndHistory({
-            searchBy: s
-        })
-    }
-
-    sortByHandler(s) {
-        this.setStateAndHistory({
-            sortBy: s
-        })
+        this.setHistory({searchBy: s})
     }
 
     componentWillMount() {
-        this.setStateAndHistory(this.props)
+        if (this.props.inited) {
+            this.setHistory(this.props)
+        } else {
+            this.props.init(this.props.match.params)
+        }
     }
 
     componentWillReceiveProps(newprops) {
         if (this.props != newprops) {
-            this.setStateAndHistory(newprops)
+            this.setHistory(newprops)
         }
     }
 
     renderSearchControl(props) {
-        console.log("searchText: " + this.props);
         return (
             <SearchControl
                 searchText = {this.props.searchText}
@@ -92,7 +79,7 @@ export class SearchPage extends React.PureComponent {
                     <Route path="/film/:id" component={this.renderFullView} />
                     <Route path="/" component={this.renderSearchControl} />
                 </Switch>
-                <SearchHeader count={this.props.films.size} sortBy={this.props.sortBy} film={this.props.selectedFilm} sortByHandler={this.props.startSortRequest} />
+                <SearchHeader count={this.props.count} sortBy={this.props.sortBy} film={this.props.selectedFilm} sortByHandler={this.props.startSortRequest} />
                 <SearchResults films={this.props.films} selectFilmHandler={this.props.startFetchFilmRequest}/>
             </div >
         )
@@ -102,10 +89,12 @@ export class SearchPage extends React.PureComponent {
 
 function mapStateToProps(state) {
     return {
-        searchBy: state.get('searchBy')|| SEARCH_BY,
-        sortBy: state.get('sortBy')|| SORT_BY,
+        inited: state.get('inited') || false,
+        searchBy: state.get('searchBy') || SEARCH_BY,
+        sortBy: state.get('sortBy') || SORT_BY,
         searchText: state.get('searchText') || '',
         films: state.get('films') || [],
+        count: state.get('count') || 0,
         selectedFilm: state.get('selectedFilm')
     };
   }

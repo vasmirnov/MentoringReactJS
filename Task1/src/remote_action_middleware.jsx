@@ -1,4 +1,4 @@
-import { receiveFilmDetails, receiveFilmsList } from './action_creators';
+import { receiveFilmDetails, receiveFilmsList, startFetchFilmRequest, startSearchRequest } from './action_creators';
 import { api_key } from './api_key';
 import { setGenres, setList, setCredits, setDetails } from './responce_mappers';
 
@@ -14,7 +14,7 @@ const getFilmDetails = (store, movieId) => fetch(`https://api.themoviedb.org/3/m
 .then(action => store.dispatch(action))  
 .catch(err => { throw err })
 
-const searchFilms = (q, genres) => fetch(`https://api.themoviedb.org/3/search/movie?api_key=${api_key}&query=${q}`)
+const searchFilms = (q, genres, sortBy) => fetch(`https://api.themoviedb.org/3/search/movie?api_key=${api_key}&query=${q}&sort_by=${sortBy}`)
 .then(response => response.json())
 .then(json => setList(json, genres))
 .then(list => receiveFilmsList(list))
@@ -27,7 +27,7 @@ const discoverFilms = (sortBy, genres, directorId) => fetch(`https://api.th
 const getList = (store, text, sortBy, directorId) => fetch(`https://api.themoviedb.org/3/genre/movie/list?api_key=${api_key}&language=en-US`)
 .then(response => response.json())
 .then(json => setGenres(json))
-.then(genres => text && searchFilms(text, genres) || discoverFilms(sortBy, genres, directorId))
+.then(genres => text && searchFilms(text, genres, sortBy) || discoverFilms(sortBy, genres, directorId))
 .then(action => store.dispatch(action))
 .catch(err => { throw err })
 
@@ -41,6 +41,14 @@ function normailzeSortBy(sortBy){
 export const remoteActionMiddleware = store => next => action => {
     console.log('in middleware', action);
     switch(action.type) {
+        case "INIT": {
+            if (action.state.selectedFilmId){
+                store.dispatch(startFetchFilmRequest(action.state.selectedFilmId));
+            } else {
+                store.dispatch(startSearchRequest(action.state.searchText));
+            }
+            break;
+        }
         case "START_FETCH_FILM_REQUEST": {
             getFilmDetails(store, action.state.selectedFilmId);       
             break;

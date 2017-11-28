@@ -1,0 +1,53 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`SearchControl render correctly 1`] = `
+<div
+  className="main"
+>
+  <div
+    className="hTitle"
+  >
+    netflixroulette
+  </div>
+  <div
+    className="h1"
+  >
+    Find your movie
+  </div>
+  <input
+    className="searchText"
+    onChange={[Function]}
+    value="Test text"
+  />
+  <div
+    className="h2"
+  >
+    <div
+      className="searchBy"
+    >
+      Search by
+      <OptionText
+        baseClass="option"
+        default={true}
+        handler={[Function]}
+        selected="title"
+        selectedClass="selected"
+        value="title"
+      />
+      <OptionText
+        baseClass="option"
+        handler={[Function]}
+        selected="title"
+        selectedClass="selected"
+        value="director"
+      />
+    </div>
+    <button
+      className="searchButton"
+      onClick={[Function]}
+    >
+      Search
+    </button>
+  </div>
+</div>
+`;

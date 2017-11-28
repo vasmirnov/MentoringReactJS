@@ -1,0 +1,22 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`SearchResults render correctly 1`] = `
+<div>
+  <Preview
+    film={
+      Immutable.Map {
+        "id": 1,
+      }
+    }
+    selectFilmHandler={[Function]}
+  />
+  <Preview
+    film={
+      Immutable.Map {
+        "id": 2,
+      }
+    }
+    selectFilmHandler={[Function]}
+  />
+</div>
+`;

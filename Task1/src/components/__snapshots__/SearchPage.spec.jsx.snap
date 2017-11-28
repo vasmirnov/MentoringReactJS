@@ -1,0 +1,41 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`SearchPage render general 1`] = `
+<div
+  className="main"
+>
+  <SearchControl
+    searchBy="title"
+    searchByHandler={[Function]}
+    searchHandler={[Function]}
+    searchText="Test text"
+  />
+  <SearchHeader
+    count={100500}
+    film={
+      Immutable.Map {
+        "id": 1,
+        "img": "1.jpg",
+        "title": "Kill Bill 1",
+        "year": "2001",
+        "genre": "comedy",
+      }
+    }
+    sortBy="author"
+    sortByHandler={[Function]}
+  />
+  <SearchResults
+    films={
+      Array [
+        Immutable.Map {
+          "id": 1,
+        },
+        Immutable.Map {
+          "id": 2,
+        },
+      ]
+    }
+    selectFilmHandler={[Function]}
+  />
+</div>
+`;

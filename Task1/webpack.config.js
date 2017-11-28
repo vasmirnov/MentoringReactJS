@@ -26,9 +26,7 @@ module.exports = {
 		contentBase: './built',
 		historyApiFallback: {
 			index:'index.html'
-		},
-		
-		
+		}	
 	},
 
 	module: {

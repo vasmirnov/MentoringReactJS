@@ -15,7 +15,7 @@ export class SearchHeader extends React.PureComponent {
                 {!this.props.film && <div className={s.count}>{this.props.count} movies found</div>}
 
                 <div className={s.sort}>Sort by
-                    <OptionText selected={this.props.sortBy} value='release date' handler={this.props.sortByHandler} baseClass={s.option} selectedClass={s.selected} default={true}/>
+                    <OptionText selected={this.props.sortBy} value='release date' handler={this.props.sortByHandler} baseClass={s.option} selectedClass={s.selected} default={true} />
                     <OptionText selected={this.props.sortBy} value='rating' handler={this.props.sortByHandler} baseClass={s.option} selectedClass={s.selected} />
                 </div>
             </div>

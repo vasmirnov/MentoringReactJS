@@ -1,8 +1,10 @@
 import React from 'react';
-import { connect } from 'react-redux';
-import { setState } from '../action_creators';
+import { connect } from 'react-redux';
+import { setState } from '../action_creators';
 
 import * as s from './searchpage.css';
+//import SearchControl from './SearchControl';
+//import SEARCH_BY  from './SearchControl';
 import { SearchControl, SEARCH_BY } from './SearchControl';
 import { SearchHeader } from './SearchHeader';
 import { SearchResults } from './SearchResults';
@@ -18,7 +20,7 @@ export class SearchPage extends React.PureComponent {
 
     constructor(...args) {
         super(...args);
-        this.searchByHandler = this.searchByHandler.bind(this);    
+        this.searchByHandler = this.searchByHandler.bind(this);
         this.renderSearchControl = this.renderSearchControl.bind(this);
         this.renderFullView = this.renderFullView.bind(this);
     }
@@ -36,7 +38,7 @@ export class SearchPage extends React.PureComponent {
     }
 
     searchByHandler(s) {
-        this.setHistory({searchBy: s})
+        this.setHistory({ searchBy: s })
     }
 
     componentWillMount() {
@@ -56,16 +58,16 @@ export class SearchPage extends React.PureComponent {
     renderSearchControl(props) {
         return (
             <SearchControl
-                searchText = {this.props.searchText}
-			    searchBy = {this.props.searchBy}
-                searchHandler = {this.props.startSearchRequest}
-                searchByHandler = {this.searchByHandler} />
+                searchText={this.props.searchText}
+                searchBy={this.props.searchBy}
+                searchHandler={this.props.startSearchRequest}
+                searchByHandler={this.searchByHandler} />
 
         )
     }
     renderFullView(props) {
         return (
-            <FullView 
+            <FullView
                 film={this.props.selectedFilm}
                 unselectFilmHandler={this.props.clearFilmDetails} />
         )
@@ -80,7 +82,7 @@ export class SearchPage extends React.PureComponent {
                     <Route path="/" component={this.renderSearchControl} />
                 </Switch>
                 <SearchHeader count={this.props.count} sortBy={this.props.sortBy} film={this.props.selectedFilm} sortByHandler={this.props.startSortRequest} />
-                <SearchResults films={this.props.films} selectFilmHandler={this.props.startFetchFilmRequest}/>
+                <SearchResults films={this.props.films} selectFilmHandler={this.props.startFetchFilmRequest} />
             </div >
         )
     }
@@ -97,6 +99,6 @@ function mapStateToProps(state) {
         count: state.get('count') || 0,
         selectedFilm: state.get('selectedFilm')
     };
-  }
+}
 
-export const SearchPageContainer =  connect(mapStateToProps, actionCreators)(SearchPage); 
+export const SearchPageContainer = connect(mapStateToProps, actionCreators)(SearchPage); 

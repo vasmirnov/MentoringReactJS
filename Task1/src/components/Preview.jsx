@@ -20,8 +20,8 @@ export class Preview extends React.PureComponent {
     render() {
         return (
             <div className={s.main} onClick={this.selectFilmHandler}>
-                <img className={s.img} src={this.getImageLing(this.props.film)}/>
-				<div className={s.title}>{this.props.film.get("title")}</div>
+                <img className={s.img} src={this.getImageLing(this.props.film)} />
+                <div className={s.title}>{this.props.film.get("title")}</div>
                 <div className={s.year}>{this.props.film.get("year")}</div>
                 <div className={s.genre}>{this.props.film.get("genre")}</div>
             </div>

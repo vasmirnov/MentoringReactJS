@@ -14,30 +14,15 @@ module.exports = {
         net: 'empty'
     },
 
-
-/*    entry: [
-        'webpack/hot/only-dev-server',
-        './index.jsx'
-    ],
-
-*/
     output: {
         path: path.resolve(__dirname, "built"),
         publicPath: '/',
         filename: '[name].js'
     },
     
-
     resolve: {
         extensions: ['.js', '.jsx']
     },
-/*
-    devServer: {
-        contentBase: './built',
-        historyApiFallback: {
-            index: 'index.html'
-        }
-    },*/
 
     module: {
         rules: [

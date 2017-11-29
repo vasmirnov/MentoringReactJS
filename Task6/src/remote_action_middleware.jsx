@@ -1,6 +1,7 @@
 import { receiveFilmDetails, receiveFilmsList, startFetchFilmRequest, startSearchRequest } from './action_creators';
 import { api_key } from './api_key';
 import { setGenres, setList, setCredits, setDetails } from './responce_mappers';
+import fetch from 'isomorphic-fetch';
 
 const getFilmCredits = (movieId, selectedFilm) => fetch(`https://api.themoviedb.org/3/movie/${movieId}/credits?api_key=${api_key}`)
     .then(response => response.json())

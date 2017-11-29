@@ -2,5 +2,18 @@
     "presets": [
         "react",
         "es2015"
+    ],
+    "plugins": [
+        [
+            "css-modules-transform", {
+                "generateScopedName": "[hash:8]",
+                "extensions": [".css"]
+            }
+        ], [
+            "transform-assets", {
+                "extensions": ["jpg"],
+                "name": "assets/[name].[ext]"
+            }
+        ]
     ]
 }

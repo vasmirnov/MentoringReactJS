@@ -8,13 +8,13 @@ import { App } from './App';
 import { NotFound } from './components/NotFound';
 import { SearchPageContainer, SearchPage, SORT_BY } from './components/SearchPage';
 import { SEARCH_BY } from './components/SearchControl';
-import  { startSearchRequest }  from  './action_creators';
+import { startSearchRequest } from './action_creators';
 import { remoteActionMiddleware } from './remote_action_middleware';
-import  { api_key  } from  './api_key';
+import { api_key } from './api_key';
 
 const store = createStore(reducer, applyMiddleware(remoteActionMiddleware));
-const staticContext = {}; 
-const html = ReactDom.renderToString(
+
+const html = (store, staticContext) => ReactDom.renderToString(
     <Provider store={store}>
         <Router1 context={staticContext}>
             <App>
@@ -29,7 +29,7 @@ const html = ReactDom.renderToString(
     </Provider>
 );
 
-function renderFullPage(html){
+function renderFullPage(html, state) {
     return `
     <!DOCTYPE html>
     <html>
@@ -38,22 +38,28 @@ function renderFullPage(html){
         <meta charset="utf-8">
     </head>
     
-    <body>
+    <body>1
         <div id="app" >${html}</div>
+        <script>
+            window.PRELOADED_STATE = ${JSON.stringify(state).replace(/</g, '\\u003c')}
+        </script>
+        
     </body>
     
     </html>`
 }
 
 
-function handleRender(req, res){
-    res.send(renderFullPage(html));
+function handleRender(req, res) {
+    const context = {};
+    const htmlString = html(store, context)
+    console.log('context', context);
+    const location = context.location && context.location.pathname;
+    if (context.url && (context.url != location)) {
+        return res.redirect(context.url);
+    } else {
+        return res.send(renderFullPage(htmlString, store.getState()));
+    }
 }
 
 export default handleRender;
-/*
-app.get('/', (req, res) => {
-    handleRender(req, res);
-    res.end();    
-});
-*/

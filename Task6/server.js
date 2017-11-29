@@ -1,15 +1,9 @@
-/*require('babel-register')({
-    presets: ['react', 'es2015']
-});
-
-require.extensions['.css'] = () => {
-    return;
-};
-
-//require('css-modules-require-hook/preset');
-*/
 import express from 'express';
 import handleRender from './src/index_ss';
+
+var webpack = require('webpack');
+
+var compiler = webpack(require('./webpack.config'));
 
 
 const port = 8080;

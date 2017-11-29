@@ -1,0 +1,55 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Preview render default img 1`] = `
+<div
+  className="main"
+  onClick={[Function]}
+>
+  <img
+    className="img"
+    src="defaultImg"
+  />
+  <div
+    className="title"
+  >
+    Kill Bill 2
+  </div>
+  <div
+    className="year"
+  >
+    2003
+  </div>
+  <div
+    className="genre"
+  >
+    comedy
+  </div>
+</div>
+`;
+
+exports[`Preview render general 1`] = `
+<div
+  className="main"
+  onClick={[Function]}
+>
+  <img
+    className="img"
+    src="https://image.tmdb.org/t/p/w3001.jpg"
+  />
+  <div
+    className="title"
+  >
+    Kill Bill 1
+  </div>
+  <div
+    className="year"
+  >
+    2001
+  </div>
+  <div
+    className="genre"
+  >
+    comedy
+  </div>
+</div>
+`;

@@ -1,0 +1,23 @@
+.searchHeader {
+	background: lightgray;
+    color: black;
+	height:30px;
+	font-size: 14px;
+	font-weight: bold;
+	padding-top: 10px; 
+}
+
+.count {
+	margin-left: 75px;
+	float: left;
+}
+.sort {
+	float: right;
+	margin-right: 75px;
+}
+.sort text{
+	margin-left: 15px;
+}
+.selected {
+	color: red;
+}
